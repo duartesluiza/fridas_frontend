@@ -17,6 +17,11 @@ export default function Login({ navigation }) {
         })
     }
 
+    const cadastrar = () => {
+        navigation.navigate("Cadastro")
+
+    }
+
     return (
         <View styles={[styles.container, specificStyle.specificContainer]}>
             <Text h3>Entre no AppFridas</Text>
@@ -41,8 +46,24 @@ export default function Login({ navigation }) {
                     />
                 }
                 title="Entrar"
+                buttonStyle={specificStyle.button}
                 /*Evento do click     */
                 onPress={() => entrar()}
+
+            />
+
+            <Button
+                icon={
+                    <Icon
+                        name="user"
+                        size={15}
+                        color="white"
+                    />
+                }
+                title="Cadastrar"
+                buttonStyle={specificStyle.button}
+                /*Evento do click     */
+                onPress={() => cadastrar()}
 
             />
 
@@ -55,5 +76,9 @@ export default function Login({ navigation }) {
 const specificStyle = StyleSheet.create({
     specificContainer: {
         backgroundColor: "#fff"
+    },
+    button: {
+        width: "100%",
+        marginTop: 10
     }
 })
