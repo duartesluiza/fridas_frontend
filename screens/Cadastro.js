@@ -4,6 +4,7 @@ import { Button, CheckBox, Input, Text } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../style/MainStyle';
+import usuarioService from '../services/UsuarioService';
 
 
 export default function Cadastro({ navigation }) {
@@ -18,6 +19,7 @@ export default function Cadastro({ navigation }) {
     const [errorNome, setErrorNome] = useState(null)
     const [errorCpf, setErrorCpf] = useState(null)
     const [errorTelefone, setErrorTelefone] = useState(null)
+    const [isLoading, setLoading] = useState(false)
 
 
     let cpfField = null
@@ -48,7 +50,31 @@ export default function Cadastro({ navigation }) {
 
     const salvar = () => {
         if (validar()) {
-            console.log("Salvou")
+            /*console.log("Salvou")*/
+            setLoading(true)
+            let data = {
+                email: email,
+                cpf: cpf,
+                nome: nome,
+                telefone: telefone
+            }
+
+            /* chamando um método assíncrono que retorna uma promise:  */
+            usuarioService.cadastrar(data)
+                /* Tratamento da promise: */
+                /* DEU CERTO */
+                .then((response) => {
+                    setLoading(false)
+                    console.log(response.data)
+                })
+                /* DEU ERRADO */
+                .catch((error) => {
+                    setLoading(false)
+                    console.log(error)
+                    console.log("Deu erro")
+                })
+
+
         }
     }
 
@@ -139,20 +165,27 @@ export default function Cadastro({ navigation }) {
                     onPress={() => setSelected(!isSelected)}
                 />
 
-                <Button
-                    icon={
-                        <Icon
-                            name="check"
-                            size={15}
-                            color="white"
-                        />
-                    }
-                    title="Salvar"
-                    buttonStyle={specificStyle.button}
-                    /*Evento do click     */
-                    onPress={() => salvar()}
 
-                />
+                {isLoading &&
+                    <Text>Carregando...</Text>
+                }
+
+                {!isLoading &&
+                    <Button
+                        icon={
+                            <Icon
+                                name="check"
+                                size={15}
+                                color="white"
+                            />
+                        }
+                        title="Salvar"
+                        buttonStyle={specificStyle.button}
+                        /*Evento do click     */
+                        onPress={() => salvar()}
+
+                    />
+                }
             </ScrollView>
         </KeyboardAvoidingView>
     );
