@@ -12,6 +12,7 @@ export default function Cadastro({ navigation }) {
     const [email, setEmail] = useState(null)
     const [nome, setNome] = useState(null)
     const [cpf, setCpf] = useState(null)
+    const [senha, setSenha] = useState(null)
     const [telefone, setTelefone] = useState(null)
     /* Por padrão, o checkbox estará desmarcado(false) */
     const [isSelected, setSelected] = useState(false)
@@ -19,6 +20,7 @@ export default function Cadastro({ navigation }) {
     const [errorNome, setErrorNome] = useState(null)
     const [errorCpf, setErrorCpf] = useState(null)
     const [errorTelefone, setErrorTelefone] = useState(null)
+    const [errorSenha, setErrorSenha] = useState(null)
     const [isLoading, setLoading] = useState(false)
 
 
@@ -29,6 +31,8 @@ export default function Cadastro({ navigation }) {
         let error = false
         setErrorEmail(null)
         setErrorCpf(null)
+        setErrorSenha(null)
+
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
         if (!re.test(String(email).toLowerCase())) {
@@ -44,6 +48,13 @@ export default function Cadastro({ navigation }) {
             setErrorTelefone("Preencha seu telefone corretamente")
             error = true
         }
+
+        if (senha == null) {
+            setErrorSenha("Preencha a senha")
+            error = true
+        }
+
+
         return !error
 
     }
@@ -56,7 +67,8 @@ export default function Cadastro({ navigation }) {
                 email: email,
                 cpf: cpf,
                 nome: nome,
-                telefone: telefone
+                telefone: telefone,
+                senha: senha
             }
 
             /* chamando um método assíncrono que retorna uma promise:  */
@@ -152,6 +164,12 @@ export default function Cadastro({ navigation }) {
                 </View>
                 <Text style={styles.errorMessage}>{errorTelefone}</Text>
 
+                <Input
+                    placeholder="Senha"
+                    onChangeText={value => setSenha(value)}
+                    errorMessage={errorSenha}
+                    secureTextEntry={true}
+                />
 
 
 
