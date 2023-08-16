@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-native';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, CheckBox, Input, Text } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
@@ -77,6 +78,7 @@ export default function Cadastro({ navigation }) {
                 /* DEU CERTO */
                 .then((response) => {
                     setLoading(false)
+                    Alert.alert("Sucesso!", response.data.mensagem)
                     console.log(response.data)
                 })
                 /* DEU ERRADO */
